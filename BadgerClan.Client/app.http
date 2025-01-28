@@ -1,0 +1,59 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@s = http://localhost:5217
+
+### Test the availability of the client controller
+GET {{s}}/client
+
+### Test the availability of the server controller
+GET {{s}}/server
+
+### Set the play mode to 2 (run)
+POST {{s}}/client?playmode=2
+
+### Injest a mock game state and return a move list
+POST {{s}}/server
+Content-Type: application/json
+{
+  "Units": [
+    {
+      "Type": "Knight",
+      "Id": 1,
+      "Attack": 10,
+      "AttackDistance": 1,
+      "Health": 100,
+      "MaxHealth": 100,
+      "Moves": 3.0,
+      "MaxMoves": 3.0,
+      "Location": {
+        "Q": 2,
+        "R": 3,
+        "Col": 2,
+        "Row": 3
+      },
+      "Team": 1
+    },
+    {
+      "Type": "Archer",
+      "Id": 2,
+      "Attack": 5,
+      "AttackDistance": 3,
+      "Health": 50,
+      "MaxHealth": 50,
+      "Moves": 2.0,
+      "MaxMoves": 2.0,
+      "Location": {
+        "Q": 4,
+        "R": 5,
+        "Col": 4,
+        "Row": 5
+      },
+      "Team": 1
+    }
+  ],
+  "TeamIds": [1, 2],
+  "YourTeamId": 1,
+  "TurnNumber": 1,
+  "GameId": "game123",
+  "BoardSize": 10,
+  "Medpacs": 3
+}

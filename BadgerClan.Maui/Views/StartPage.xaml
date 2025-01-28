@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BadgerClan.Maui.Views.StartPage">
+    <VerticalStackLayout MaximumWidthRequest="500"
+                         Spacing="20">
+        <Label Text="Thomas' Player Controller"
+               HorizontalOptions="Center" 
+               FontAttributes="Bold"
+               FontSize="36" />
+
+        <VerticalStackLayout Spacing="10">
+            <Label Text="Base Url:"
+                   FontSize="24" 
+                   FontAttributes="Bold"/>
+            <Entry Text="{Binding BaseUrl}"
+                   Placeholder="http://localhost:8080"
+                   FontSize="20" />
+        </VerticalStackLayout>
+
+        <Button Text="Set Base Url"
+                Command="{Binding StartControllingClientCommand}"
+                FontSize="24" 
+                FontAttributes="Bold" />
+    </VerticalStackLayout>
+</ContentPage>

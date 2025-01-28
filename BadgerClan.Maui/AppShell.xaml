@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="BadgerClan.Maui.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:BadgerClan.Maui.Views"
+    Shell.FlyoutBehavior="Flyout"
+    Title="BadgerClan.Maui">
+
+    <ShellContent ContentTemplate="{DataTemplate local:StartPage}"
+                  Route="Start" />
+
+    <ShellContent ContentTemplate="{DataTemplate local:ControlPage}"
+                  Route="Control" />
+
+</Shell>
