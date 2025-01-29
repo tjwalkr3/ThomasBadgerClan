@@ -18,6 +18,7 @@ public record Team
         Color = color;
         Bot = bot;
     }
+
     public Team(int teamId)
     {
         Id = teamId;

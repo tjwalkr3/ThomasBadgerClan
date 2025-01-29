@@ -15,11 +15,11 @@ public class ServerController(ILogger<ServerController> logger, IMoveService mov
     }
 
     [HttpPost]
-    public IResult Move([FromBody] MoveRequest request)
+    public async Task<IResult> Move([FromBody] MoveRequest request)
     {
         logger.LogInformation("Received move request for game {gameId} turn {turnNumber}", request.GameId, request.TurnNumber);
 
-        MoveResponse response = moveService.GetMoves(request);
+        MoveResponse response = await moveService.GetResponse(request);
         return Results.Ok(response);
     }
 }

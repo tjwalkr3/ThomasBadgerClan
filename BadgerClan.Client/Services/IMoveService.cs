@@ -1,8 +1,10 @@
 ﻿using BadgerClan.Logic;
-namespace BadgerClan.Client.Services;
 
-public interface IMoveService
+namespace BadgerClan.Client.Services
 {
-    MoveResponse GetMoves(MoveRequest request);
-    bool SetPlayMode(int playMode);
+    public interface IMoveService
+    {
+        Task<MoveResponse> GetResponse(MoveRequest request);
+        bool SetPlayMode(int playMode);
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using BadgerClan.Logic;
+using BadgerClan.Logic.Bot;
 
 namespace BadgerClan.Client.Services;
 
@@ -8,7 +9,7 @@ public class MoveService : IMoveService
 
     public bool SetPlayMode(int playMode)
     {
-        if (playMode >= 0 && playMode <= 3)
+        if (playMode >= 0 && playMode <= 2)
         {
             _playMode = (PlayMode)playMode;
             return true;
@@ -19,40 +20,55 @@ public class MoveService : IMoveService
         }
     }
 
-    public MoveResponse GetMoves(MoveRequest request)
+    private GameState GetGameState(MoveRequest request, IBot bot)
     {
-        List<Move> myMoves = [];
+        List<Unit> allUnits = request.Units
+            .Select(dto => Unit.Factory(
+                dto.Type,
+                dto.Id,
+                dto.Attack,
+                dto.AttackDistance,
+                dto.Health,
+                dto.MaxHealth,
+                dto.Moves,
+                dto.MaxMoves,
+                dto.Location,
+                dto.Team))
+            .ToList();
+
+        return new GameState(
+            request.GameId,
+            request.BoardSize,
+            request.TurnNumber,
+            allUnits, request.TeamIds,
+            new Team(request.YourTeamId));
+    }
+
+    private async Task<List<Move>> GetMoves(MoveRequest request)
+    {
+        IBot bot = new NothingBot();
+
         switch (_playMode)
         {
             case PlayMode.Attack:
-                Attack(request, myMoves);
+                bot = new RunAndGun();
                 break;
             case PlayMode.Defend:
-                Defend(request, myMoves);
-                break;
-            case PlayMode.Run:
-                Run(request, myMoves);
+                bot = new Turtle();
                 break;
             case PlayMode.Stop:
                 break;
         }
-        return new MoveResponse(myMoves);
+
+        GameState gameState = GetGameState(request, bot);
+        return await bot.PlanMovesAsync(gameState);
     }
 
-    private void Attack(MoveRequest request, List<Move> myMoves)
+    public async Task<MoveResponse> GetResponse(MoveRequest request)
     {
-        
-    }
-
-    private void Defend(MoveRequest request, List<Move> myMoves)
-    {
-        
-    }
-
-    private void Run(MoveRequest request, List<Move> myMoves)
-    {
-        
+        List<Move> moves = await GetMoves(request);
+        return new MoveResponse(moves);
     }
 }
 
-enum PlayMode { Attack, Defend, Run, Stop }
+enum PlayMode { Attack, Defend, Stop }

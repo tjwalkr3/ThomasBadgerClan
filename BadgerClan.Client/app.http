@@ -8,7 +8,7 @@ GET {{s}}/client
 GET {{s}}/server
 
 ### Set the play mode to 2 (run)
-POST {{s}}/client?playmode=2
+POST {{s}}/client?playmode=0
 
 ### Injest a mock game state and return a move list
 POST {{s}}/server
