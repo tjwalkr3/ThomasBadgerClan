@@ -5,7 +5,7 @@ namespace BadgerClan.Client.Services;
 
 public class MoveService : IMoveService
 {
-    private PlayMode _playMode = PlayMode.Defend;
+    private PlayMode _playMode = PlayMode.Stop;
 
     public bool SetPlayMode(int playMode)
     {
@@ -44,7 +44,7 @@ public class MoveService : IMoveService
             new Team(request.YourTeamId));
     }
 
-    private async Task<List<Move>> GetMoves(MoveRequest request)
+    public async Task<MoveResponse> GetResponse(MoveRequest request)
     {
         IBot bot = new NothingBot();
 
@@ -61,12 +61,7 @@ public class MoveService : IMoveService
         }
 
         GameState gameState = GetGameState(request, bot);
-        return await bot.PlanMovesAsync(gameState);
-    }
-
-    public async Task<MoveResponse> GetResponse(MoveRequest request)
-    {
-        List<Move> moves = await GetMoves(request);
+        List<Move> moves = await bot.PlanMovesAsync(gameState);
         return new MoveResponse(moves);
     }
 }
