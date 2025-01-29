@@ -1,6 +1,6 @@
 [
   {
-    "Name": "Client and Server",
+    "Name": "Start All",
     "Projects": [
       {
         "Path": "BadgerClan.Web\\BadgerClan.Web.csproj",
@@ -9,6 +9,11 @@
       {
         "Path": "BadgerClan.Client\\BadgerClan.Client.csproj",
         "Action": "Start"
+      },
+      {
+        "Path": "BadgerClan.Maui\\BadgerClan.Maui.csproj",
+        "Action": "Start",
+        "DebugTarget": "Windows Machine"
       }
     ]
   }
