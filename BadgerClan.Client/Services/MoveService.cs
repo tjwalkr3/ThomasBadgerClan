@@ -56,6 +56,9 @@ public class MoveService : IMoveService
             case PlayMode.Defend:
                 bot = new Turtle();
                 break;
+            case PlayMode.Scatter:
+                bot = new Scatter();
+                break;
             case PlayMode.Stop:
                 break;
         }
@@ -66,4 +69,4 @@ public class MoveService : IMoveService
     }
 }
 
-enum PlayMode { Attack, Defend, Stop }
+enum PlayMode { Attack, Defend, Stop, Scatter }
