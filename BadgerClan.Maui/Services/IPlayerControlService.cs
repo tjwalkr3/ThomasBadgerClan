@@ -6,6 +6,7 @@ namespace BadgerClan.Maui.Services
         void SetBaseUrl(string baseUrl);
         Task AttackAsync();
         Task DefendAsync();
+        Task ScatterAsync();
         Task StopAsync();
     }
 }

@@ -22,6 +22,11 @@
                 FontSize="24" 
                 FontAttributes="Bold" />
 
+        <Button Text="Scatter"
+                Command="{Binding ScatterCommand}"
+                FontSize="24" 
+                FontAttributes="Bold" />
+
         <Button Text="Stop"
                 Command="{Binding StopCommand}"
                 FontSize="24" 

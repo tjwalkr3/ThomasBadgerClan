@@ -23,6 +23,13 @@ public partial class ControlPageViewModel(IPlayerControlService playerControlSer
     }
 
     [RelayCommand]
+    public async Task Scatter()
+    {
+        await playerControlService.ScatterAsync();
+        CurrentState = "Scattering";
+    }
+
+    [RelayCommand]
     public async Task Stop()
     {
         await playerControlService.StopAsync();

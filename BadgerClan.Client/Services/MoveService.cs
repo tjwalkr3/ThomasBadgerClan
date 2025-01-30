@@ -9,7 +9,7 @@ public class MoveService : IMoveService
 
     public bool SetPlayMode(int playMode)
     {
-        if (playMode >= 0 && playMode <= 2)
+        if (playMode >= 0 && playMode <= 3)
         {
             _playMode = (PlayMode)playMode;
             return true;
@@ -69,4 +69,4 @@ public class MoveService : IMoveService
     }
 }
 
-enum PlayMode { Attack, Defend, Stop, Scatter }
+enum PlayMode { Attack, Defend, Scatter, Stop }
