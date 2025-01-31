@@ -12,24 +12,39 @@ public class Scatter : IBot
         var moves = new List<Move>();
         foreach (var unit in state.Units.Where(u => u.Team == state.CurrentTeamId))
         {
-            var allOtherPlayers = state.Units.Where(u => u != unit);
-            var closest = allOtherPlayers.OrderBy(u => u.Location.Distance(unit.Location)).FirstOrDefault();
+            var closestAll = state.Units
+                .Where(u => u != unit)
+                .OrderBy(u => u.Location.Distance(unit.Location))
+                .FirstOrDefault();
+            var closestOtherTeam = state.Units
+                .Where(u => u.Team != state.CurrentTeamId)
+                .OrderBy(u => u.Location.Distance(unit.Location))
+                .FirstOrDefault();
             Coordinate? closestWall = GetClosestWall(unit.Location, state.Dimension);
 
-            if (closest != null && closestWall is not null)
+            if (closestAll != null && closestWall is not null)
             {
-                if (unit.Location.Distance(closestWall) < unit.Location.Distance(closest.Location))
+                if (closestOtherTeam is not null && closestOtherTeam.Location.Distance(unit.Location) <= unit.AttackDistance)
+                {
+                    moves.Add(SharedMoves.AttackClosest(unit, closestAll));
+                    moves.Add(SharedMoves.AttackClosest(unit, closestAll));
+                }
+                else if (myteam.Medpacs > 0 && unit.Health < unit.MaxHealth)
+                {
+                    moves.Add(new Move(MoveType.Medpac, unit.Id, unit.Location));
+                }
+                else if (unit.Location.Distance(closestWall) < unit.Location.Distance(closestAll.Location))
                 {
                     var moveAwayFromWall = unit.Location.Away(closestWall);
                     moves.Add(new Move(MoveType.Walk, unit.Id, moveAwayFromWall));
                 }
-                else if (unit.Location.Distance(closestWall) > unit.Location.Distance(closest.Location))
+                else if (unit.Location.Distance(closestWall) > unit.Location.Distance(closestAll.Location))
                 {
-                    moves.Add(StepAwayFromClosest(unit, closest, state));
+                    moves.Add(StepAwayFromClosest(unit, closestAll, state));
                 }
                 else
                 {
-                    var perpendicularMove = GetPerpendicularMove(unit.Location, closest.Location, closestWall);
+                    var perpendicularMove = GetPerpendicularMove(unit.Location, closestAll.Location, closestWall);
                     moves.Add(new Move(MoveType.Walk, unit.Id, perpendicularMove));
                 }
             }
