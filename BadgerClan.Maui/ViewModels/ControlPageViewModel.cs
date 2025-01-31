@@ -6,7 +6,7 @@ namespace BadgerClan.Maui.ViewModels;
 public partial class ControlPageViewModel(IPlayerControlService playerControlService) : ObservableObject
 {
     [ObservableProperty]
-    private string _currentState = "Stopped";
+    private string _currentState = "Scattering";
 
     [RelayCommand]
     public async Task Attack()

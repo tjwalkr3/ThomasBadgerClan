@@ -5,7 +5,7 @@ namespace BadgerClan.Client.Services;
 
 public class MoveService : IMoveService
 {
-    private PlayMode _playMode = PlayMode.Stop;
+    private PlayMode _playMode = PlayMode.Scatter;
 
     public bool SetPlayMode(int playMode)
     {
