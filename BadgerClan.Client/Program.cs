@@ -3,11 +3,12 @@ using BadgerClan.Client.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddLogging();
+builder.WebHost.UseUrls("http://0.0.0.0:5217");
 builder.Services.AddSingleton<IMoveService, MoveService>();
 
 var app = builder.Build();
 
-string url = app.Configuration["ASPNETCORE_URLS"]?.Split(";").Last() ?? throw new Exception("Unable to find URL");
+string url = app.Configuration["ASPNETCORE_URLS"]?.Split(";").Last() ?? "http://localhost:5217";
 int port = new Uri(url).Port;
 
 Console.Clear();
