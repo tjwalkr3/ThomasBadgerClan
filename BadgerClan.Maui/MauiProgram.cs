@@ -12,9 +12,9 @@ namespace BadgerClan.Maui
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .RegisterViews()
-                .RegisterViewModels()
                 .RegisterServices()
+                .RegisterViewModels()
+                .RegisterViews()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

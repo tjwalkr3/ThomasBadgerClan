@@ -2,26 +2,59 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BadgerClan.Maui.Views.StartPage">
-    <VerticalStackLayout MaximumWidthRequest="500"
-                         Spacing="20"
-                         Margin="10">
-        <Label Text="Thomas' Player Controller"
-               HorizontalOptions="Center" 
-               FontAttributes="Bold"
-               FontSize="36" />
+    <ScrollView>
+        <VerticalStackLayout MaximumWidthRequest="800"
+                             Spacing="20"
+                             Margin="10">
+            <Label Text="Thomas' Player Controller"
+                   HorizontalOptions="Center" 
+                   FontAttributes="Bold"
+                   FontSize="36" />
 
-        <VerticalStackLayout Spacing="10">
-            <Label Text="Base Url:"
-                   FontSize="24" 
-                   FontAttributes="Bold"/>
-            <Entry Text="{Binding BaseUrl}"
-                   Placeholder="http://localhost:8080"
-                   FontSize="20" />
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Base Url:"
+                       FontSize="24" 
+                       FontAttributes="Bold"/>
+                <Entry Text="{Binding BaseUrl}"
+                       Placeholder="http://localhost:8080"
+                       FontSize="20" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Name:"
+                       FontSize="24" 
+                       FontAttributes="Bold"/>
+                <Entry Text="{Binding Name}"
+                       Placeholder="my client"
+                       FontSize="20" />
+            </VerticalStackLayout>
+
+            <Button Text="Add A New Client"
+                    Command="{Binding AddNewClientCommand}"
+                    FontSize="24" 
+                    FontAttributes="Bold" />
+
+            <Button Text="Control Your Clients"
+                    Command="{Binding StartControllingCommand}"
+                    FontSize="24" 
+                    FontAttributes="Bold" />
+
+            <VerticalStackLayout>
+                <Label Text="List of Clients:"
+                       FontAttributes="Bold"
+                       FontSize="24" />
+
+                <CollectionView ItemsSource="{Binding ClientList}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding .}"
+                                   Margin="15,0,0,0"
+                                   FontSize="20" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+            
         </VerticalStackLayout>
-
-        <Button Text="Set Base Url"
-                Command="{Binding StartControllingClientCommand}"
-                FontSize="24" 
-                FontAttributes="Bold" />
-    </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

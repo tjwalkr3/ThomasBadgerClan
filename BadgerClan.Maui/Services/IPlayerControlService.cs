@@ -1,9 +1,15 @@
 ﻿
+using BadgerClan.Maui.Models;
+
 namespace BadgerClan.Maui.Services
 {
     public interface IPlayerControlService
     {
-        void SetBaseUrl(string baseUrl);
+        List<Client> Clients { get; }
+        Client? CurrentClient { get; }
+        void SetCurrentClient(string name);
+
+        void AddClient(string name, string baseUrl);
         Task AttackAsync();
         Task DefendAsync();
         Task ScatterAsync();

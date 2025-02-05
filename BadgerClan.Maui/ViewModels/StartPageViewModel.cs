@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using BadgerClan.Maui.Services;
+using System.Collections.ObjectModel;
 namespace BadgerClan.Maui.ViewModels;
 
 public partial class StartPageViewModel(IPlayerControlService playerControlService) : ObservableObject
@@ -8,16 +9,17 @@ public partial class StartPageViewModel(IPlayerControlService playerControlServi
     [ObservableProperty]
     private string _baseUrl = string.Empty;
 
-    partial void OnBaseUrlChanged(string? oldValue, string newValue)
-    {
-        StartControllingClientCommand.NotifyCanExecuteChanged();
-    }
+    [ObservableProperty]
+    private string _name = string.Empty;
 
-    public bool AllValid()
+    public ObservableCollection<string> ClientList { get; } = [];
+
+    public bool NewClientValid()
     {
         Uri? uriResult;
         if (Uri.TryCreate(BaseUrl, UriKind.Absolute, out uriResult) && uriResult != null &&
-           (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+           (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps) && 
+           !string.IsNullOrWhiteSpace(Name))
         {
             return true;
         }
@@ -27,10 +29,32 @@ public partial class StartPageViewModel(IPlayerControlService playerControlServi
         }
     }
 
-    [RelayCommand(CanExecute=nameof(AllValid))]
-    public async Task StartControllingClient()
+    partial void OnBaseUrlChanged(string? oldValue, string newValue)
     {
-        playerControlService.SetBaseUrl(BaseUrl);
-        await Shell.Current.GoToAsync("///Control");
+        AddNewClientCommand.NotifyCanExecuteChanged();
+    }
+
+    partial void OnNameChanged(string? oldValue, string newValue)
+    {
+        AddNewClientCommand.NotifyCanExecuteChanged();
+    }
+
+    [RelayCommand(CanExecute = nameof(NewClientValid))]
+    public void AddNewClient()
+    {
+        ClientList.Add(Name);
+        playerControlService.AddClient(Name, BaseUrl);
+        StartControllingCommand.NotifyCanExecuteChanged();
+    }
+
+    public bool HasClients()
+    {
+        return playerControlService.Clients.Count > 0;
+    }
+
+    [RelayCommand(CanExecute = nameof(HasClients))]
+    public void StartControlling()
+    {
+        Shell.Current.GoToAsync("///Control");
     }
 }

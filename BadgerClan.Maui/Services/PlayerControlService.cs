@@ -1,19 +1,27 @@
-﻿namespace BadgerClan.Maui.Services;
+﻿using BadgerClan.Maui.Models;
+namespace BadgerClan.Maui.Services;
 
 public class PlayerControlService : IPlayerControlService
 {
-    private HttpClient? _client = null;
+    public List<Client> Clients { get; } = [];
+    public Client? CurrentClient { get; private set; } = null;
 
-    public void SetBaseUrl(string baseUrl)
+    public void AddClient(string name, string baseUrl)
     {
         if (!baseUrl.EndsWith("/")) baseUrl += "/";
-        _client = new HttpClient() { BaseAddress = new Uri(baseUrl) };
+        HttpClient apiClient = new HttpClient() { BaseAddress = new Uri(baseUrl) };
+        Clients.Add(new Client() { Name = name, ApiClient = apiClient });
+    }
+
+    public void SetCurrentClient(string name)
+    {
+        CurrentClient = Clients.First(c => c.Name == name);
     }
 
     private async Task MakeRequest(int playMode)
     {
-        if (_client == null) throw new InvalidOperationException("Base URL not set");
-        await _client.PostAsync($"client?playmode={playMode}", null);
+        if (CurrentClient == null) throw new InvalidOperationException("There is no client set.");
+        await CurrentClient.ApiClient.PostAsync($"client?playmode={playMode}", null);
     }
 
     public async Task AttackAsync() => await MakeRequest(0);

@@ -3,9 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BadgerClan.Maui.Views.ControlPage"
              Title="ControlPage">
-    <VerticalStackLayout MaximumWidthRequest="500"
+    <VerticalStackLayout MaximumWidthRequest="800"
                          Spacing="20"
                          Margin="10">
+        <Picker Title="Select an option"
+                FontSize="24"
+                ItemsSource="{Binding ClientList}"
+                SelectedItem="{Binding SelectedClient}" />
+
         <Label Text="{Binding CurrentState, 
                               StringFormat='Current State: {0}'}"
                HorizontalOptions="Center" 
