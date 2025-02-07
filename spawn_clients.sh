@@ -1,12 +1,12 @@
 #!/bin/bash
 
-RESOURCE_GROUP="badgerclan-client-rg-auto"
+RESOURCE_GROUP="<your-resource-group-name>"
 LOCATION="westus"
-IMAGE="tjwalkr3/badgerclan-client"
+IMAGE="<your-username>/<your-container-name>"
 PORT=5217
 REGISTRY_SERVER="index.docker.io"
-REGISTRY_USER="tjwalkr3"
-REGISTRY_PASS="dckr_pat_JD26NLaK0hy8F624Uj9cIl2KzSs"
+REGISTRY_USER="<your-username>"
+REGISTRY_PASS="<your-passkey>"
 
 # Create resource group
 az group create --name $RESOURCE_GROUP --location $LOCATION -o none
