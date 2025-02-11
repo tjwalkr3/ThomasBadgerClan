@@ -1,6 +1,6 @@
 
 using System.Security.AccessControl;
-using BadgerClan.Logic;
+using BadgerClan.Client.Logic;
 
 namespace BadgerClan.Test;
 

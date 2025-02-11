@@ -1,9 +1,6 @@
 ﻿namespace BadgerClan.Client.Controllers;
-
 using BadgerClan.Client.Services;
-using BadgerClan.Logic;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 [ApiController]
 [Route("[controller]")]

@@ -1,4 +1,4 @@
-using BadgerClan.Logic;
+using BadgerClan.Client.Logic;
 
 namespace BadgerClan.Test.GameEngineTest;
 

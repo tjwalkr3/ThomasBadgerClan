@@ -14,7 +14,8 @@ public class MauiTest
         var playerControlService = new PlayerControlService();
         var startPageViewModel = new StartPageViewModel(playerControlService);
         startPageViewModel.BaseUrl = baseUrl;
+        startPageViewModel.Name = "Test Client";
 
-        Assert.Equal(expected, startPageViewModel.AllValid());
+        Assert.Equal(expected, startPageViewModel.NewClientValid());
     }
 }

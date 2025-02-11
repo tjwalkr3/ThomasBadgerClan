@@ -1,13 +1,12 @@
 
-using BadgerClan.Logic;
-using BadgerClan.Logic.Bot;
+using BadgerClan.Client.Logic;
+using BadgerClan.Client.Logic.Bot;
 
 namespace BadgerClan.Test;
 
 
 public class MoveGenTest
 {
-
     private GameEngine engine;
 
     public MoveGenTest()
@@ -50,7 +49,6 @@ public class MoveGenTest
         Assert.Equal(6, moves.Count);
         GameEngine.ProcessTurn(state, moves);
     }
-
 
     [Fact]
     public async Task TwoTurns()
@@ -99,10 +97,14 @@ public class MoveGenTest
 
         var moves1 = await bot1.PlanMovesAsync(state);
 
-        Assert.Single(moves1);
+        Assert.Equal(2, moves1.Count);
+        Assert.Equal(MoveType.Attack, moves1[0].Type);
+        Assert.Equal(MoveType.Attack, moves1[1].Type);
+
+        int healthBefore = knight2.Health;
+
         GameEngine.ProcessTurn(state, moves1);
 
-        Assert.Equal(Coordinate.Offset(9, 9), state.Units[0].Location);
-        Assert.Equal(Coordinate.Offset(10, 11), state.Units[1].Location);
+        Assert.Equal(healthBefore - (archer1.Attack * archer1.AttackCount), knight2.Health);
     }
 }

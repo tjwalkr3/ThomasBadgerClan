@@ -1,5 +1,5 @@
-using BadgerClan.Logic;
-using BadgerClan.Logic.Bot;
+using BadgerClan.Client.Logic;
+using BadgerClan.Client.Logic.Bot;
 
 namespace BadgerClan.Test.GameEngineTest;
 

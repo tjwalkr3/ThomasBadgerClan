@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BadgerClan.Logic\BadgerClan.Logic.csproj" />
+    <ProjectReference Include="..\BadgerClan.Client\BadgerClan.Client.csproj" />
     <ProjectReference Include="..\BadgerClan.Maui\BadgerClan.Maui.csproj" />
   </ItemGroup>
 
