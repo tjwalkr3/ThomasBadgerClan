@@ -17,5 +17,6 @@ COPY ./dev.key /App/certs/dev.key
 # Set environment variables to use the certificate (optional)
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/App/certs/dev.crt
 ENV ASPNETCORE_Kestrel__Certificates__Default__KeyPath=/App/certs/dev.key
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password=password123
 
 ENTRYPOINT ["dotnet", "BadgerClan.Client.dll"]
