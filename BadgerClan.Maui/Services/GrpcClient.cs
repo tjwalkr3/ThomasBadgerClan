@@ -17,8 +17,13 @@ public class GrpcClient : IDisposable
 
     public GrpcClient()
     {
+        var httpHandler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+
         GrpcClientFactory.AllowUnencryptedHttp2 = true;
-        channel = GrpcChannel.ForAddress(GrpcApiAddress);
+        channel = GrpcChannel.ForAddress(GrpcApiAddress, new GrpcChannelOptions { HttpHandler = httpHandler });
         Client = channel.CreateGrpcService<IGrpcMoveService>();
     }
 
