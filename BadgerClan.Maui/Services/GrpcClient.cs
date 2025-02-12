@@ -6,16 +6,10 @@ namespace BadgerClan.Maui.Services;
 
 public class GrpcClient : IDisposable
 {
-#if DEBUG
-    private const string GrpcApiAddress = "http://localhost:5000";
-#else
-    private const string GrpcApiAddress = "http://localhost:5000";
-#endif
-
     private GrpcChannel channel;
     public IGrpcMoveService Client { get; }
 
-    public GrpcClient()
+    public GrpcClient(string grpcApiAddress)
     {
         var httpHandler = new HttpClientHandler
         {
@@ -23,7 +17,7 @@ public class GrpcClient : IDisposable
         };
 
         GrpcClientFactory.AllowUnencryptedHttp2 = true;
-        channel = GrpcChannel.ForAddress(GrpcApiAddress, new GrpcChannelOptions { HttpHandler = httpHandler });
+        channel = GrpcChannel.ForAddress(grpcApiAddress, new GrpcChannelOptions { HttpHandler = httpHandler });
         Client = channel.CreateGrpcService<IGrpcMoveService>();
     }
 

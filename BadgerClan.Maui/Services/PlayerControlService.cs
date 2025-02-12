@@ -11,8 +11,17 @@ public class PlayerControlService(GrpcClient grpcClient, ILogger<PlayerControlSe
     public void AddClient(string name, string baseUrl, bool grpcEnabled)
     {
         if (!baseUrl.EndsWith("/")) baseUrl += "/";
-        HttpClient apiClient = new HttpClient() { BaseAddress = new Uri(baseUrl) };
-        Clients.Add(new Client() { Name = name, ApiClient = apiClient, GrpcEnabled = grpcEnabled });
+
+        if (grpcEnabled)
+        {
+            GrpcClient apiClient = new GrpcClient(baseUrl);
+            Clients.Add(new Client() { Name = name, GrpcClient = apiClient, GrpcEnabled = grpcEnabled });
+        }
+        else
+        {
+            HttpClient apiClient = new HttpClient() { BaseAddress = new Uri(baseUrl) };
+            Clients.Add(new Client() { Name = name, ApiClient = apiClient, GrpcEnabled = grpcEnabled });
+        }
     }
 
     public void SetCurrentClient(string name)
@@ -25,14 +34,18 @@ public class PlayerControlService(GrpcClient grpcClient, ILogger<PlayerControlSe
         try
         {
             if (CurrentClient == null) throw new InvalidOperationException("There is no client set.");
-            if (CurrentClient.GrpcEnabled)
+            if (CurrentClient.GrpcEnabled && CurrentClient.GrpcClient is not null)
             {
                 MoveRequest request = new() { PlayStyle = playMode };
-                MoveResponse response = await grpcClient.Client.ChangeStrategy(request);
+                MoveResponse response = await CurrentClient.GrpcClient.Client.ChangeStrategy(request);
+            }
+            else if (CurrentClient.ApiClient is not null)
+            {
+                await CurrentClient.ApiClient!.PostAsync($"client?playmode={playMode}", null);
             }
             else
             {
-                await CurrentClient.ApiClient.PostAsync($"client?playmode={playMode}", null);
+                throw new InvalidOperationException("No API client available.");
             }
         }
         catch (Exception ex)
