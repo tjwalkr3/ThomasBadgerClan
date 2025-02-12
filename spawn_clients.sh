@@ -38,12 +38,11 @@ do
           "KESTREL__ENDPOINTS__GRPC__URL=http://0.0.0.0:$GRPC_PORT" \
           "KESTREL__ENDPOINTS__GRPC__PROTOCOLS=Http2" \
           "KESTREL__ENDPOINTS__WEBAPI__URL=http://0.0.0.0:$HTTP_PORT" \
-          "KESTREL__ENDPOINTS__WEBAPI__PROTOCOLS=Http1"
+          "KESTREL__ENDPOINTS__WEBAPI__PROTOCOLS=Http1" \
       --output none
     
-    echo "Client $CLIENT_NAME created: "
     echo "    gRPC= http://$DNS_LABEL.$LOCATION.azurecontainer.io:$GRPC_PORT"
-    echo "    HTTP= http://$DNS_LABEL.$LOCATION.azurecontainer.io:$GRPC_PORT"
+    echo "    HTTP= http://$DNS_LABEL.$LOCATION.azurecontainer.io:$HTTP_PORT"
 done
 
 # Allow user to delete the resource group
