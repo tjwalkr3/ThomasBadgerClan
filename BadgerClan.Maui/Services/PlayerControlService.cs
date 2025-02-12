@@ -3,7 +3,7 @@ using BadgerClan.Shared;
 using Microsoft.Extensions.Logging;
 namespace BadgerClan.Maui.Services;
 
-public class PlayerControlService(GrpcClient grpcClient, ILogger<PlayerControlService> logger) : IPlayerControlService
+public class PlayerControlService(ILogger<PlayerControlService> logger) : IPlayerControlService
 {
     public List<Client> Clients { get; } = [];
     public Client? CurrentClient { get; private set; } = null;
