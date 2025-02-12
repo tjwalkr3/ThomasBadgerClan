@@ -1,0 +1,30 @@
+﻿@using Humanizer
+@inject Lobby lobby
+@inject HttpClient httpClient
+
+<div class="bg-body-secondary p-3 border rounded-3 mt-3">
+    <h4 class="text-center">Available Games</h4>
+    @if (gamesToJoin.Any())
+    {
+        <div class="row">
+            @foreach (var game in gamesToJoin)
+            {
+                <JoinGameCard Game="game" />
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-secondary text-center">No Available Games</div>
+    }
+</div>
+
+@code {
+
+    IEnumerable<GameState> gamesToJoin => lobby.Games.Where(g => g.TurnNumber == 0);
+
+    protected override void OnInitialized()
+    {
+        lobby.LobbyChanged += (e) => InvokeAsync(StateHasChanged);
+    }
+}

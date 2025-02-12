@@ -26,7 +26,6 @@ builder.Services.AddControllers();
 builder.Services.AddCodeFirstGrpc();
 builder.Services.AddSingleton<IMoveService, MoveService>();
 
-Console.WriteLine("API is ready to recieve traffic on port 8090 for HTTP and 8091 for gRPC!");
 
 var app = builder.Build();
 
@@ -37,3 +36,5 @@ app.MapGrpcService<GrpcMoveService>();
 app.MapControllers();
 
 app.Run();
+
+Console.WriteLine("API is ready to recieve traffic on port 8090 for HTTP and 8091 for gRPC!");
