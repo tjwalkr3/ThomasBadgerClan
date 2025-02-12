@@ -1,12 +1,13 @@
 #!/bin/bash
 
-RESOURCE_GROUP="<your-resource-group-name>"
+RESOURCE_GROUP="thomas-badgerclan-grpc"
 LOCATION="westus"
-IMAGE="<your-username>/<your-container-name>"
-PORT=5217
+IMAGE="tjwalkr3/badgerclan-client"
 REGISTRY_SERVER="index.docker.io"
-REGISTRY_USER="<your-username>"
-REGISTRY_PASS="<your-passkey>"
+REGISTRY_USER="tjwalkr3"
+GRPC_PORT="5000"
+HTTP_PORT="5001"
+REGISTRY_PASS="dckr_pat_VzQLAIUDYuZM7LKuG-yz6X2Sa_Q"
 
 # Create resource group
 az group create --name $RESOURCE_GROUP --location $LOCATION -o none
@@ -26,16 +27,23 @@ do
       --name $CLIENT_NAME \
       --image $IMAGE \
       --dns-name-label $DNS_LABEL \
-      --ports $PORT \
       --os-type Linux \
       --cpu 1 \
       --memory 1.5 \
       --registry-login-server $REGISTRY_SERVER \
       --registry-username $REGISTRY_USER \
       --registry-password $REGISTRY_PASS \
+      --ports $GRPC_PORT $HTTP_PORT \
+      --environment-variables \
+          "KESTREL__ENDPOINTS__GRPC__URL=http://0.0.0.0:$GRPC_PORT" \
+          "KESTREL__ENDPOINTS__GRPC__PROTOCOLS=Http2" \
+          "KESTREL__ENDPOINTS__WEBAPI__URL=http://0.0.0.0:$HTTP_PORT" \
+          "KESTREL__ENDPOINTS__WEBAPI__PROTOCOLS=Http1"
       --output none
     
-    echo "Client $CLIENT_NAME created at: http://$DNS_LABEL.$LOCATION.azurecontainer.io:$PORT"
+    echo "Client $CLIENT_NAME created: "
+    echo "    gRPC= http://$DNS_LABEL.$LOCATION.azurecontainer.io:$GRPC_PORT"
+    echo "    HTTP= http://$DNS_LABEL.$LOCATION.azurecontainer.io:$GRPC_PORT"
 done
 
 # Allow user to delete the resource group
