@@ -10,10 +10,6 @@
         "Path": "BadgerClan.Maui\\BadgerClan.Maui.csproj",
         "Action": "Start",
         "DebugTarget": "Windows Machine"
-      },
-      {
-        "Path": "BadgerClan.Web\\BadgerClan.Web.csproj",
-        "Action": "Start"
       }
     ]
   }

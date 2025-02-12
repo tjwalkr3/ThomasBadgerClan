@@ -1,16 +1,17 @@
 ﻿using BadgerClan.Maui.Models;
+using BadgerClan.Shared;
 namespace BadgerClan.Maui.Services;
 
-public class PlayerControlService : IPlayerControlService
+public class PlayerControlService(GrpcClient grpcClient) : IPlayerControlService
 {
     public List<Client> Clients { get; } = [];
     public Client? CurrentClient { get; private set; } = null;
 
-    public void AddClient(string name, string baseUrl)
+    public void AddClient(string name, string baseUrl, bool grpcEnabled)
     {
         if (!baseUrl.EndsWith("/")) baseUrl += "/";
         HttpClient apiClient = new HttpClient() { BaseAddress = new Uri(baseUrl) };
-        Clients.Add(new Client() { Name = name, ApiClient = apiClient });
+        Clients.Add(new Client() { Name = name, ApiClient = apiClient, GrpcEnabled = grpcEnabled });
     }
 
     public void SetCurrentClient(string name)
@@ -21,7 +22,15 @@ public class PlayerControlService : IPlayerControlService
     private async Task MakeRequest(int playMode)
     {
         if (CurrentClient == null) throw new InvalidOperationException("There is no client set.");
-        await CurrentClient.ApiClient.PostAsync($"client?playmode={playMode}", null);
+        if (CurrentClient.GrpcEnabled)
+        {
+            MoveRequest request = new() { PlayStyle = playMode };
+            MoveResponse response = await grpcClient.Client.ChangeStrategy(request);
+        }
+        else
+        {
+            await CurrentClient.ApiClient.PostAsync($"client?playmode={playMode}", null);
+        }
     }
 
     public async Task AttackAsync() => await MakeRequest(0);

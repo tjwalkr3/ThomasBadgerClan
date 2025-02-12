@@ -45,6 +45,7 @@ namespace BadgerClan.Maui
         private static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<IPlayerControlService, PlayerControlService>();
+            builder.Services.AddSingleton<GrpcClient>();
             return builder;
         }
     }

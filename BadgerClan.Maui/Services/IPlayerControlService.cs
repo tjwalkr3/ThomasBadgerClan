@@ -9,7 +9,7 @@ namespace BadgerClan.Maui.Services
         Client? CurrentClient { get; }
         void SetCurrentClient(string name);
 
-        void AddClient(string name, string baseUrl);
+        void AddClient(string name, string baseUrl, bool grpcEnabled);
         Task AttackAsync();
         Task DefendAsync();
         Task ScatterAsync();

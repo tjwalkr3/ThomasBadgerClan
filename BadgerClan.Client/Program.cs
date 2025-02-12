@@ -10,6 +10,12 @@ builder.Services.AddSingleton<IMoveService, MoveService>();
 
 var app = builder.Build();
 
+// client endpoint
+app.MapGrpcService<GrpcMoveService>();
+
+// server endpoint
+app.MapControllers();
+
 string url = app.Configuration["ASPNETCORE_URLS"]?.Split(";").Last() ?? "http://localhost:5001";
 int port = new Uri(url).Port;
 
@@ -33,10 +39,5 @@ Console.WriteLine($"\t devtunnel host -p {port} --allow-anonymous");
 Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine();
 Console.WriteLine("In the output from the 'devtunnel host' command, look for the \"Connect via browser:\" URL.  Paste that in the browser as your bot's address");
-
-//client endpoint
-app.MapGrpcService<GrpcMoveService>();
-
-app.MapControllers();
 
 app.Run();

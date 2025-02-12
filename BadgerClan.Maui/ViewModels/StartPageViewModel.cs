@@ -13,7 +13,7 @@ public partial class StartPageViewModel(IPlayerControlService playerControlServi
     private string _name = string.Empty;
 
     [ObservableProperty]
-    private bool _checked = false;
+    private bool _grpcEnabled = false;
 
     public ObservableCollection<string> ClientList { get; } = [];
 
@@ -42,11 +42,16 @@ public partial class StartPageViewModel(IPlayerControlService playerControlServi
         AddNewClientCommand.NotifyCanExecuteChanged();
     }
 
+    partial void OnGrpcEnabledChanged(bool oldValue, bool newValue)
+    {
+        AddNewClientCommand.NotifyCanExecuteChanged();
+    }
+
     [RelayCommand(CanExecute = nameof(NewClientValid))]
     public void AddNewClient()
     {
         ClientList.Add(Name);
-        playerControlService.AddClient(Name, BaseUrl);
+        playerControlService.AddClient(Name, BaseUrl, GrpcEnabled);
         StartControllingCommand.NotifyCanExecuteChanged();
     }
 

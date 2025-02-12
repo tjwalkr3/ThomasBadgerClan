@@ -20,6 +20,15 @@
                        FontSize="20" />
             </VerticalStackLayout>
 
+            <HorizontalStackLayout HorizontalOptions="Start"
+                                   Spacing="5">
+                <CheckBox IsChecked="{Binding GrpcEnabled}"
+                          HorizontalOptions="Start" />
+                <Label Text="Using gRPC"
+                       FontAttributes="Bold"
+                       FontSize="24" />
+            </HorizontalStackLayout>
+
             <VerticalStackLayout Spacing="10">
                 <Label Text="Name:"
                        FontSize="24" 
