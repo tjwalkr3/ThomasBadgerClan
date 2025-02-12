@@ -9,12 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure kestrel to run using the right ports and protocols
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(5001, listenOptions =>
+    options.ListenAnyIP(8090, listenOptions =>
     {
         listenOptions.Protocols = HttpProtocols.Http1;
     });
 
-    options.ListenAnyIP(5000, listenOptions =>
+    options.ListenAnyIP(8091, listenOptions =>
     {
         listenOptions.UseHttps();
         listenOptions.Protocols = HttpProtocols.Http2;
@@ -25,6 +25,8 @@ builder.Services.AddLogging();
 builder.Services.AddControllers();
 builder.Services.AddCodeFirstGrpc();
 builder.Services.AddSingleton<IMoveService, MoveService>();
+
+Console.WriteLine("API is ready to recieve traffic on port 8090 for HTTP and 8091 for gRPC!");
 
 var app = builder.Build();
 

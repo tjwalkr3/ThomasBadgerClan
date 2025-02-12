@@ -31,11 +31,11 @@ do
         --registry-login-server $REGISTRY_SERVER \
         --registry-username $REGISTRY_USER \
         --registry-password $REGISTRY_PASS \
-        --ports 5000 5001 \
+        --ports 8090 8091 \
         --output none
     
-    echo "    gRPC= https://$DNS_LABEL.$LOCATION.azurecontainer.io:5000"
-    echo "    HTTP= http://$DNS_LABEL.$LOCATION.azurecontainer.io:5001"
+    echo "    HTTP= http://$DNS_LABEL.$LOCATION.azurecontainer.io:8090"
+    echo "    gRPC= https://$DNS_LABEL.$LOCATION.azurecontainer.io:8091"
 done
 
 # Allow user to delete the resource group
