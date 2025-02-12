@@ -12,6 +12,9 @@ public partial class StartPageViewModel(IPlayerControlService playerControlServi
     [ObservableProperty]
     private string _name = string.Empty;
 
+    [ObservableProperty]
+    private bool _checked = false;
+
     public ObservableCollection<string> ClientList { get; } = [];
 
     public bool NewClientValid()

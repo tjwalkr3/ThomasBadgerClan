@@ -1,5 +1,5 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
-@s = http://localhost:5217
+@s = http://localhost:5001
 
 ### Test the availability of the client controller
 GET {{s}}/client
@@ -53,7 +53,7 @@ Content-Type: application/json
   "TeamIds": [1, 2],
   "YourTeamId": 1,
   "TurnNumber": 1,
-  "GameId": "game123",
+  "GameId": "00000000-0000-0000-0000-000000000000",
   "BoardSize": 10,
   "Medpacs": 3
 }

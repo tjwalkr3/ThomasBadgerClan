@@ -1,14 +1,16 @@
 using BadgerClan.Client.Services;
+using BadgerClan.Client.GrpcServices;
+using ProtoBuf.Grpc.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddLogging();
-builder.WebHost.UseUrls("http://0.0.0.0:5217");
+builder.Services.AddCodeFirstGrpc();
 builder.Services.AddSingleton<IMoveService, MoveService>();
 
 var app = builder.Build();
 
-string url = app.Configuration["ASPNETCORE_URLS"]?.Split(";").Last() ?? "http://localhost:5217";
+string url = app.Configuration["ASPNETCORE_URLS"]?.Split(";").Last() ?? "http://localhost:5001";
 int port = new Uri(url).Port;
 
 Console.Clear();
@@ -31,6 +33,9 @@ Console.WriteLine($"\t devtunnel host -p {port} --allow-anonymous");
 Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine();
 Console.WriteLine("In the output from the 'devtunnel host' command, look for the \"Connect via browser:\" URL.  Paste that in the browser as your bot's address");
+
+//client endpoint
+app.MapGrpcService<GrpcMoveService>();
 
 app.MapControllers();
 
