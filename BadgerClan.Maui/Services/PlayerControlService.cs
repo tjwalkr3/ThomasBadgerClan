@@ -1,8 +1,9 @@
 ﻿using BadgerClan.Maui.Models;
 using BadgerClan.Shared;
+using Microsoft.Extensions.Logging;
 namespace BadgerClan.Maui.Services;
 
-public class PlayerControlService(GrpcClient grpcClient) : IPlayerControlService
+public class PlayerControlService(GrpcClient grpcClient, ILogger<PlayerControlService> logger) : IPlayerControlService
 {
     public List<Client> Clients { get; } = [];
     public Client? CurrentClient { get; private set; } = null;
@@ -21,15 +22,22 @@ public class PlayerControlService(GrpcClient grpcClient) : IPlayerControlService
 
     private async Task MakeRequest(int playMode)
     {
-        if (CurrentClient == null) throw new InvalidOperationException("There is no client set.");
-        if (CurrentClient.GrpcEnabled)
+        try
         {
-            MoveRequest request = new() { PlayStyle = playMode };
-            MoveResponse response = await grpcClient.Client.ChangeStrategy(request);
+            if (CurrentClient == null) throw new InvalidOperationException("There is no client set.");
+            if (CurrentClient.GrpcEnabled)
+            {
+                MoveRequest request = new() { PlayStyle = playMode };
+                MoveResponse response = await grpcClient.Client.ChangeStrategy(request);
+            }
+            else
+            {
+                await CurrentClient.ApiClient.PostAsync($"client?playmode={playMode}", null);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await CurrentClient.ApiClient.PostAsync($"client?playmode={playMode}", null);
+            logger.LogError($"Error: {ex.Message}");
         }
     }
 
