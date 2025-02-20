@@ -51,7 +51,7 @@ public class MoveService : IMoveService
         switch (_playMode)
         {
             case PlayMode.Attack:
-                bot = new RunAndGun();
+                bot = new Flank();
                 break;
             case PlayMode.Defend:
                 bot = new Turtle();

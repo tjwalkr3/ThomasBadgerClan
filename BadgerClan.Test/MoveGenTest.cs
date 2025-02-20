@@ -18,7 +18,7 @@ public class MoveGenTest
     public async Task BasicTest()
     {
         var state = new GameState();
-        var bot = new RunAndGun();
+        var bot = new Flank();
         var archer1 = Unit.Factory("Archer", 1, Coordinate.Offset(10, 10));
         var knight2 = Unit.Factory("Knight", 2, Coordinate.Offset(20, 20));
         state.AddUnit(archer1);
@@ -34,11 +34,11 @@ public class MoveGenTest
     {
         var state = new GameState();
 
-        var bot1 = new RunAndGun();
+        var bot1 = new Flank();
         var team1 = new Team("Team 1", "red", bot1);
         state.AddTeam(team1);
 
-        var bot2 = new RunAndGun();
+        var bot2 = new Flank();
         var team2 = new Team("Team 2", "red", bot2);
         state.AddTeam(team2);
 
@@ -55,11 +55,11 @@ public class MoveGenTest
     {
         var state = new GameState();
 
-        var bot1 = new RunAndGun();
+        var bot1 = new Flank();
         var team1 = new Team("Team 1", "red", bot1);
         state.AddTeam(team1);
 
-        var bot2 = new RunAndGun();
+        var bot2 = new Flank();
         var team2 = new Team("Team 1", "red", bot2);
         state.AddTeam(team2);
 

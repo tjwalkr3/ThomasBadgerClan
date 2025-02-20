@@ -1,7 +1,7 @@
 
 namespace BadgerClan.Client.Logic.Bot;
 
-public class RunAndGun : IBot
+public class Flank : IBot
 {
     public Task<List<Move>> PlanMovesAsync(GameState state)
     {
@@ -34,5 +34,5 @@ public class RunAndGun : IBot
         }
         return Task.FromResult(moves);
     }
-
+    
 }
