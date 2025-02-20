@@ -16,11 +16,17 @@ public class Flank : IBot
             var closest = enemies.OrderBy(u => u.Location.Distance(unit.Location)).FirstOrDefault();
             if (closest != null)
             {
-
                 if (closest.Location.Distance(unit.Location) <= unit.AttackDistance)
                 {
-                    moves.Add(SharedMoves.AttackClosest(unit, closest));
-                    moves.Add(SharedMoves.AttackClosest(unit, closest));
+                    if (unit.Health > unit.MaxHealth / 2)
+                    {
+                        moves.Add(SharedMoves.AttackClosest(unit, closest));
+                        moves.Add(SharedMoves.AttackClosest(unit, closest));
+                    }
+                    else
+                    {
+                        moves.Add(new Move(MoveType.Medpac, unit.Id, unit.Location));
+                    }
                 }
                 else if (myteam.Medpacs > 0 && unit.Health < unit.MaxHealth)
                 {
@@ -34,5 +40,4 @@ public class Flank : IBot
         }
         return Task.FromResult(moves);
     }
-    
 }
