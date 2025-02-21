@@ -9,7 +9,7 @@ public class MoveService : IMoveService
 
     public bool SetPlayMode(int playMode)
     {
-        if (playMode >= 0 && playMode <= 3)
+        if (playMode >= 0 && playMode <= 4)
         {
             _playMode = (PlayMode)playMode;
             return true;
@@ -51,13 +51,16 @@ public class MoveService : IMoveService
         switch (_playMode)
         {
             case PlayMode.Attack:
-                bot = new Flank();
+                bot = new RunAndGun();
                 break;
             case PlayMode.Defend:
                 bot = new Turtle();
                 break;
             case PlayMode.Scatter:
                 bot = new Scatter();
+                break;
+            case PlayMode.Advanced:
+                bot = new AdvancedBot();
                 break;
             case PlayMode.Stop:
                 break;
@@ -69,4 +72,4 @@ public class MoveService : IMoveService
     }
 }
 
-enum PlayMode { Attack, Defend, Scatter, Stop }
+enum PlayMode { Attack, Defend, Scatter, Advanced, Stop }

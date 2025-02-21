@@ -13,6 +13,7 @@ namespace BadgerClan.Maui.Services
         Task AttackAsync();
         Task DefendAsync();
         Task ScatterAsync();
+        Task AdvancedAsync();
         Task StopAsync();
     }
 }

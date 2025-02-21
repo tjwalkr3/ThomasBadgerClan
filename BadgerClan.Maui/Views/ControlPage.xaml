@@ -32,6 +32,11 @@
                 FontSize="24" 
                 FontAttributes="Bold" />
 
+        <Button Text="Regroup"
+                Command="{Binding AdvancedCommand}"
+                FontSize="24" 
+                FontAttributes="Bold" />
+
         <Button Text="Stop"
                 Command="{Binding StopCommand}"
                 FontSize="24" 

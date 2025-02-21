@@ -57,5 +57,6 @@ public class PlayerControlService(ILogger<PlayerControlService> logger) : IPlaye
     public async Task AttackAsync() => await MakeRequest(0);
     public async Task DefendAsync() => await MakeRequest(1);
     public async Task ScatterAsync() => await MakeRequest(2);
-    public async Task StopAsync() => await MakeRequest(3);
+    public async Task AdvancedAsync() => await MakeRequest(3);
+    public async Task StopAsync() => await MakeRequest(4);
 }

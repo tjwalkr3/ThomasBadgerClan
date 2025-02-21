@@ -1,7 +1,10 @@
 
+using BadgerClan.Client.Logic.Bot;
+using BadgerClan.Client.Logic;
+
 namespace BadgerClan.Client.Logic.Bot;
 
-public class Flank : IBot
+public class RunAndGun : IBot
 {
     public Task<List<Move>> PlanMovesAsync(GameState state)
     {
@@ -18,15 +21,8 @@ public class Flank : IBot
             {
                 if (closest.Location.Distance(unit.Location) <= unit.AttackDistance)
                 {
-                    if (unit.Health > unit.MaxHealth / 2)
-                    {
-                        moves.Add(SharedMoves.AttackClosest(unit, closest));
-                        moves.Add(SharedMoves.AttackClosest(unit, closest));
-                    }
-                    else
-                    {
-                        moves.Add(new Move(MoveType.Medpac, unit.Id, unit.Location));
-                    }
+                    moves.Add(SharedMoves.AttackClosest(unit, closest));
+                    moves.Add(SharedMoves.AttackClosest(unit, closest));
                 }
                 else if (myteam.Medpacs > 0 && unit.Health < unit.MaxHealth)
                 {

@@ -21,6 +21,7 @@ public partial class ControlPageViewModel(IPlayerControlService playerControlSer
         AttackCommand.NotifyCanExecuteChanged();
         DefendCommand.NotifyCanExecuteChanged();
         ScatterCommand.NotifyCanExecuteChanged();
+        AdvancedCommand.NotifyCanExecuteChanged();
         StopCommand.NotifyCanExecuteChanged();
     }
 
@@ -48,6 +49,13 @@ public partial class ControlPageViewModel(IPlayerControlService playerControlSer
     {
         await playerControlService.ScatterAsync();
         CurrentState = "Scattering";
+    }
+
+    [RelayCommand(CanExecute = nameof(ClientSet))]
+    public async Task Advanced()
+    {
+        await playerControlService.AdvancedAsync();
+        CurrentState = "Advanced";
     }
 
     [RelayCommand(CanExecute = nameof(ClientSet))]
